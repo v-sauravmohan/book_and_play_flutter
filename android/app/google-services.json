@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "707774213222",
+    "firebase_url": "https://book-and-play-990db.firebaseio.com",
+    "project_id": "book-and-play-990db",
+    "storage_bucket": "book-and-play-990db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707774213222:android:186a0a37158d72648851a7",
+        "android_client_info": {
+          "package_name": "com.sauravmohanv.book_and_play_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707774213222-l2uo5npqvht2vds6efkvinmb7b2tp8i3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6dUthoZ2-s9r3PQ1iL8QjBC1ZoaTCPSI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707774213222-l2uo5npqvht2vds6efkvinmb7b2tp8i3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
