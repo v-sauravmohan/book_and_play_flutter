@@ -1,11 +1,12 @@
+import 'package:book_and_play_flutter/constants.dart';
 import 'package:flutter/material.dart';
 
-class BookAndPlayCTAButton extends StatelessWidget {
+class STRCTAButton extends StatelessWidget {
   final Color color;
   final Function onPress;
   final String buttonLabel;
 
-  BookAndPlayCTAButton({
+  STRCTAButton({
     this.color,
     @required this.onPress,
     @required this.buttonLabel,
@@ -25,7 +26,13 @@ class BookAndPlayCTAButton extends StatelessWidget {
           },
           minWidth: 200.0,
           height: 42.0,
-          child: Text(buttonLabel),
+          child: Text(
+            buttonLabel,
+            style: TextStyle(
+              color: kPrimaryTextColor,
+              fontSize: 15,
+            ),
+          ),
         ),
       ),
     );

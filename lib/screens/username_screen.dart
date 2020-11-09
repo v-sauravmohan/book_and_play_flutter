@@ -1,21 +1,43 @@
 import 'package:book_and_play_flutter/components/str_button.dart';
-import 'package:book_and_play_flutter/constants.dart';
-import 'package:book_and_play_flutter/screens/username_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:book_and_play_flutter/screens/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class RegistrationScreen extends StatefulWidget {
-  static String id = 'registration_screen';
+import '../constants.dart';
+
+final _firestore = FirebaseFirestore.instance;
+User loggedInUser;
+
+class UsernameScreen extends StatefulWidget {
+  static String id = 'username_screen';
   @override
-  _RegistrationScreenState createState() => _RegistrationScreenState();
+  _UsernameScreenState createState() => _UsernameScreenState();
 }
 
-class _RegistrationScreenState extends State<RegistrationScreen> {
+class _UsernameScreenState extends State<UsernameScreen> {
   final _auth = FirebaseAuth.instance;
   bool showSpinner = false;
-  String email;
-  String password;
+  String username;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        loggedInUser = user;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +49,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
+            children: [
               Flexible(
                 child: Hero(
                   tag: 'logo',
@@ -41,27 +63,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 height: 48.0,
               ),
               TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  textAlign: TextAlign.center,
-                  onChanged: (value) {
-                    this.email = value;
-                  },
-                  style: TextStyle(color: Colors.black),
-                  decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your email',
-                  )),
-              SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                obscureText: true,
+                keyboardType: TextInputType.name,
                 textAlign: TextAlign.center,
-                onChanged: (value) {
-                  this.password = value;
-                },
                 style: TextStyle(color: Colors.black),
+                onChanged: (value) {
+                  username = value;
+                },
                 decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your password',
+                  hintText: 'Enter username',
                 ),
               ),
               SizedBox(
@@ -69,18 +78,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               ),
               STRCTAButton(
                 color: kDarkPrimaryColor,
-                buttonLabel: 'Register',
+                buttonLabel: 'Confirm',
                 onPress: () async {
                   setState(() {
                     showSpinner = true;
                   });
+                  _firestore.collection('users').add({
+                    'email': loggedInUser.email,
+                    'username': username,
+                  });
                   try {
-                    final newUser = await _auth.createUserWithEmailAndPassword(
-                        email: email, password: password);
-                    if (newUser != null) {
-                      Navigator.pushReplacementNamed(
-                          context, UsernameScreen.id);
-                    }
+                    Navigator.pushReplacementNamed(context, HomeScreen.id);
                     setState(() {
                       showSpinner = false;
                     });
